@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8" />
+<title>آلة حاسبة متكاملة</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f7fc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+}
+.calculator {
+  width: 320px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+.display {
+  background: #1f2937;
+  color: #ffffff;
+  text-align: right;
+  padding: 24px 18px;
+  font-size: 36px;
+  letter-spacing: 1px;
+}
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+button {
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  font-size: 20px;
+  padding: 22px 0;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+button:hover {
+  background: #e2e8f0;
+}
+button.operator {
+  background: #2563eb;
+  color: #fff;
+}
+button.operator:hover {
+  background: #1d4ed8;
+}
+button.equal {
+  grid-column: span 2;
+  background: #10b981;
+  color: #fff;
+}
+button.equal:hover {
+  background: #059669;
+}
+button.clear {
+  background: #ef4444;
+  color: #fff;
+}
+button.clear:hover {
+  background: #dc2626;
+}
+</style>
+</head>
+<body>
+<div class="calculator">
+  <div id="display" class="display">0</div>
+  <div class="buttons">
+    <button class="clear">C</button>
+    <button class="operator">/</button>
+    <button class="operator">*</button>
+    <button class="operator">-</button>
+    <button>7</button>
+    <button>8</button>
+    <button>9</button>
+    <button class="operator">+</button>
+    <button>4</button>
+    <button>5</button>
+    <button>6</button>
+    <button class="equal">=</button>
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>0</button>
+    <button>.</button>
+  </div>
+</div>
+
+<script>
+const display = document.getElementById('display');
+const buttons = document.querySelectorAll('button');
+let currentValue = '';
+let lastInput = '';
+
+buttons.forEach(button => {
+  button.addEventListener('click', () => {
+    const value = button.textContent;
+
+    if (button.classList.contains('clear')) {
+      currentValue = '';
+      lastInput = '';
+      display.textContent = '0';
+      return;
+    }
+
+    if (button.classList.contains('equal')) {
+      if (!currentValue) return;
+      try {
+        const result = eval(currentValue);
+        display.textContent = String(result);
+        currentValue = String(result);
+        lastInput = '';
+      } catch {
+        display.textContent = 'خطأ';
+        currentValue = '';
+      }
+      return;
+    }
+
+    if (button.classList.contains('operator')) {
+      if (!currentValue) return;
+      if (/[+\-*/]$/.test(currentValue)) {
+        currentValue = currentValue.slice(0, -1) + value;
+      } else {
+        currentValue += value;
+      }
+      lastInput = value;
+    } else if (value === '.') {
+      if (lastInput === '.' || /\.\d*$/.test(currentValue)) return;
+      if (!currentValue || /[+\-*/]$/.test(currentValue)) {
+        currentValue += '0.';
+      } else {
+        currentValue += '.';
+      }
+      lastInput = '.';
+    } else {
+      currentValue += value;
+      lastInput = value;
+    }
+
+    display.textContent = currentValue || '0';
+  });
+});
+</script>
+</body>
+</html>
