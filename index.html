@@ -1,151 +1,2016 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl" data-theme="midnight">
 <head>
-<meta charset="UTF-8" />
-<title>آلة حاسبة متكاملة</title>
-<style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f7fc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  margin: 0;
-}
-.calculator {
-  width: 320px;
-  background: #ffffff;
-  border-radius: 18px;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
-  overflow: hidden;
-}
-.display {
-  background: #1f2937;
-  color: #ffffff;
-  text-align: right;
-  padding: 24px 18px;
-  font-size: 36px;
-  letter-spacing: 1px;
-}
-.buttons {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-}
-button {
-  border: 1px solid #e5e7eb;
-  background: #f9fafb;
-  font-size: 20px;
-  padding: 22px 0;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-button:hover {
-  background: #e2e8f0;
-}
-button.operator {
-  background: #2563eb;
-  color: #fff;
-}
-button.operator:hover {
-  background: #1d4ed8;
-}
-button.equal {
-  grid-column: span 2;
-  background: #10b981;
-  color: #fff;
-}
-button.equal:hover {
-  background: #059669;
-}
-button.clear {
-  background: #ef4444;
-  color: #fff;
-}
-button.clear:hover {
-  background: #dc2626;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniCalc Pro - الحاسبة العلمية الحديثة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ====================================================
+       THEMES DEFINITION (CSS Custom Properties)
+       ==================================================== */
+    /* 1. Midnight Cyber (الافتراضي) */
+    :root, [data-theme="midnight"] {
+      --bg-gradient: radial-gradient(circle at 15% 15%, #12182b 0%, #080c16 55%, #05070d 100%);
+      --card-bg: rgba(18, 24, 43, 0.78);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-blur: blur(24px);
+      --primary: #38bdf8;
+      --primary-glow: rgba(56, 189, 248, 0.25);
+      --accent: #818cf8;
+      --accent-glow: rgba(129, 140, 248, 0.3);
+      --glow-1-bg: #0284c7;
+      --glow-2-bg: #6366f1;
+      --surface-1: rgba(255, 255, 255, 0.035);
+      --surface-2: rgba(255, 255, 255, 0.07);
+      --surface-hover: rgba(255, 255, 255, 0.12);
+      --btn-num: rgba(255, 255, 255, 0.04);
+      --btn-op: rgba(56, 189, 248, 0.12);
+      --btn-fn: rgba(129, 140, 248, 0.12);
+      --btn-danger: rgba(244, 63, 94, 0.15);
+      --btn-equals-grad: linear-gradient(135deg, #0284c7, #4f46e5);
+      --btn-equals-hover: linear-gradient(135deg, #0369a1, #4338ca);
+      --badge-grad: linear-gradient(90deg, #38bdf8, #818cf8);
+      --brand-icon-grad: linear-gradient(135deg, #0284c7, #6366f1);
+      --screen-bg: rgba(8, 12, 22, 0.88);
+      --modal-bg: #0f1629;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-subtle: #64748b;
+      --graph-curve: #38bdf8;
+      --graph-glow: #0284c7;
+    }
+
+    /* 2. Emerald Matrix (الزمردي الملكي) */
+    [data-theme="emerald"] {
+      --bg-gradient: radial-gradient(circle at 15% 15%, #06241b 0%, #03140e 55%, #020b08 100%);
+      --card-bg: rgba(6, 36, 27, 0.78);
+      --card-border: rgba(52, 211, 153, 0.12);
+      --card-blur: blur(24px);
+      --primary: #10b981;
+      --primary-glow: rgba(16, 185, 129, 0.25);
+      --accent: #34d399;
+      --accent-glow: rgba(52, 211, 153, 0.3);
+      --glow-1-bg: #059669;
+      --glow-2-bg: #10b981;
+      --surface-1: rgba(16, 185, 129, 0.04);
+      --surface-2: rgba(16, 185, 129, 0.08);
+      --surface-hover: rgba(52, 211, 153, 0.14);
+      --btn-num: rgba(255, 255, 255, 0.04);
+      --btn-op: rgba(16, 185, 129, 0.14);
+      --btn-fn: rgba(52, 211, 153, 0.12);
+      --btn-danger: rgba(244, 63, 94, 0.15);
+      --btn-equals-grad: linear-gradient(135deg, #059669, #10b981);
+      --btn-equals-hover: linear-gradient(135deg, #047857, #059669);
+      --badge-grad: linear-gradient(90deg, #10b981, #6ee7b7);
+      --brand-icon-grad: linear-gradient(135deg, #047857, #10b981);
+      --screen-bg: rgba(3, 20, 14, 0.9);
+      --modal-bg: #062219;
+      --text-main: #f0fdf4;
+      --text-muted: #86efac;
+      --text-subtle: #4ade80;
+      --graph-curve: #10b981;
+      --graph-glow: #059669;
+    }
+
+    /* 3. Royal Violet (البنفسجي الملكي) */
+    [data-theme="violet"] {
+      --bg-gradient: radial-gradient(circle at 15% 15%, #23113a 0%, #11081e 55%, #08030f 100%);
+      --card-bg: rgba(32, 16, 54, 0.78);
+      --card-border: rgba(192, 132, 252, 0.12);
+      --card-blur: blur(24px);
+      --primary: #c084fc;
+      --primary-glow: rgba(192, 132, 252, 0.25);
+      --accent: #f472b6;
+      --accent-glow: rgba(244, 114, 182, 0.3);
+      --glow-1-bg: #9333ea;
+      --glow-2-bg: #db2777;
+      --surface-1: rgba(192, 132, 252, 0.04);
+      --surface-2: rgba(192, 132, 252, 0.08);
+      --surface-hover: rgba(192, 132, 252, 0.14);
+      --btn-num: rgba(255, 255, 255, 0.04);
+      --btn-op: rgba(192, 132, 252, 0.14);
+      --btn-fn: rgba(244, 114, 182, 0.12);
+      --btn-danger: rgba(244, 63, 94, 0.16);
+      --btn-equals-grad: linear-gradient(135deg, #9333ea, #db2777);
+      --btn-equals-hover: linear-gradient(135deg, #7e22ce, #be185d);
+      --badge-grad: linear-gradient(90deg, #c084fc, #f472b6);
+      --brand-icon-grad: linear-gradient(135deg, #9333ea, #c084fc);
+      --screen-bg: rgba(16, 7, 28, 0.9);
+      --modal-bg: #1d0e30;
+      --text-main: #faf5ff;
+      --text-muted: #d8b4fe;
+      --text-subtle: #a855f7;
+      --graph-curve: #c084fc;
+      --graph-glow: #9333ea;
+    }
+
+    /* 4. Crimson Ruby (الياقوت القرمزي) */
+    [data-theme="crimson"] {
+      --bg-gradient: radial-gradient(circle at 15% 15%, #2a0e16 0%, #16060b 55%, #0b0205 100%);
+      --card-bg: rgba(38, 12, 19, 0.8);
+      --card-border: rgba(251, 113, 133, 0.14);
+      --card-blur: blur(24px);
+      --primary: #fb7185;
+      --primary-glow: rgba(251, 113, 133, 0.25);
+      --accent: #f43f5e;
+      --accent-glow: rgba(244, 63, 94, 0.3);
+      --glow-1-bg: #e11d48;
+      --glow-2-bg: #be123c;
+      --surface-1: rgba(251, 113, 133, 0.04);
+      --surface-2: rgba(251, 113, 133, 0.08);
+      --surface-hover: rgba(251, 113, 133, 0.15);
+      --btn-num: rgba(255, 255, 255, 0.04);
+      --btn-op: rgba(251, 113, 133, 0.14);
+      --btn-fn: rgba(244, 63, 94, 0.12);
+      --btn-danger: rgba(225, 29, 72, 0.22);
+      --btn-equals-grad: linear-gradient(135deg, #e11d48, #9f1239);
+      --btn-equals-hover: linear-gradient(135deg, #be123c, #881337);
+      --badge-grad: linear-gradient(90deg, #fb7185, #fda4af);
+      --brand-icon-grad: linear-gradient(135deg, #e11d48, #fb7185);
+      --screen-bg: rgba(20, 5, 9, 0.92);
+      --modal-bg: #22080f;
+      --text-main: #fff1f2;
+      --text-muted: #fecdd3;
+      --text-subtle: #fb7185;
+      --graph-curve: #fb7185;
+      --graph-glow: #e11d48;
+    }
+
+    /* 5. Luxury Gold (الذهب الملكي) */
+    [data-theme="gold"] {
+      --bg-gradient: radial-gradient(circle at 15% 15%, #281e09 0%, #171104 55%, #0d0901 100%);
+      --card-bg: rgba(35, 26, 9, 0.8);
+      --card-border: rgba(245, 158, 11, 0.15);
+      --card-blur: blur(24px);
+      --primary: #f59e0b;
+      --primary-glow: rgba(245, 158, 11, 0.25);
+      --accent: #fbbf24;
+      --accent-glow: rgba(251, 191, 36, 0.3);
+      --glow-1-bg: #d97706;
+      --glow-2-bg: #b45309;
+      --surface-1: rgba(245, 158, 11, 0.04);
+      --surface-2: rgba(245, 158, 11, 0.08);
+      --surface-hover: rgba(251, 191, 36, 0.14);
+      --btn-num: rgba(255, 255, 255, 0.04);
+      --btn-op: rgba(245, 158, 11, 0.14);
+      --btn-fn: rgba(251, 191, 36, 0.12);
+      --btn-danger: rgba(244, 63, 94, 0.16);
+      --btn-equals-grad: linear-gradient(135deg, #d97706, #f59e0b);
+      --btn-equals-hover: linear-gradient(135deg, #b45309, #d97706);
+      --badge-grad: linear-gradient(90deg, #f59e0b, #fde68a);
+      --brand-icon-grad: linear-gradient(135deg, #d97706, #fbbf24);
+      --screen-bg: rgba(18, 13, 3, 0.92);
+      --modal-bg: #201705;
+      --text-main: #fffbeb;
+      --text-muted: #fde68a;
+      --text-subtle: #f59e0b;
+      --graph-curve: #fbbf24;
+      --graph-glow: #d97706;
+    }
+
+    /* 6. Titanium Frost (تيتانيوم أحادي أنيق) */
+    [data-theme="titanium"] {
+      --bg-gradient: radial-gradient(circle at 15% 15%, #1e242d 0%, #0f1318 55%, #080a0d 100%);
+      --card-bg: rgba(26, 32, 41, 0.82);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --card-blur: blur(24px);
+      --primary: #94a3b8;
+      --primary-glow: rgba(148, 163, 184, 0.25);
+      --accent: #cbd5e1;
+      --accent-glow: rgba(203, 213, 225, 0.3);
+      --glow-1-bg: #475569;
+      --glow-2-bg: #64748b;
+      --surface-1: rgba(255, 255, 255, 0.04);
+      --surface-2: rgba(255, 255, 255, 0.08);
+      --surface-hover: rgba(255, 255, 255, 0.15);
+      --btn-num: rgba(255, 255, 255, 0.04);
+      --btn-op: rgba(148, 163, 184, 0.15);
+      --btn-fn: rgba(203, 213, 225, 0.12);
+      --btn-danger: rgba(244, 63, 94, 0.16);
+      --btn-equals-grad: linear-gradient(135deg, #475569, #94a3b8);
+      --btn-equals-hover: linear-gradient(135deg, #334155, #64748b);
+      --badge-grad: linear-gradient(90deg, #94a3b8, #e2e8f0);
+      --brand-icon-grad: linear-gradient(135deg, #475569, #94a3b8);
+      --screen-bg: rgba(12, 15, 20, 0.92);
+      --modal-bg: #141920;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-subtle: #64748b;
+      --graph-curve: #cbd5e1;
+      --graph-glow: #64748b;
+    }
+
+    /* Core Reset */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      overflow-x: hidden;
+      transition: background 0.4s ease, color 0.3s ease;
+    }
+
+    /* Ambient Background Lights */
+    .glow-sphere {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.38;
+      transition: background 0.5s ease;
+    }
+    .glow-1 {
+      width: 450px;
+      height: 450px;
+      background: var(--glow-1-bg);
+      top: -100px;
+      right: -100px;
+    }
+    .glow-2 {
+      width: 500px;
+      height: 500px;
+      background: var(--glow-2-bg);
+      bottom: -150px;
+      left: -150px;
+    }
+
+    /* Main Container */
+    .app-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 980px;
+      background: var(--card-bg);
+      backdrop-filter: var(--card-blur);
+      -webkit-backdrop-filter: var(--card-blur);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: all 0.3s ease;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--brand-icon-grad);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px var(--primary-glow);
+      transition: background 0.3s ease;
+    }
+    .brand-icon svg {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: #fff;
+      stroke-width: 2;
+    }
+
+    .brand-title h1 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand-title h1 span.pro-badge {
+      font-size: 0.65rem;
+      font-weight: 800;
+      background: var(--badge-grad);
+      color: #05070d;
+      padding: 2px 7px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      transition: background 0.3s ease;
+    }
+    .brand-title p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-action {
+      background: var(--surface-1);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-action:hover {
+      background: var(--surface-2);
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateY(-1px);
+    }
+    .btn-action:active {
+      transform: translateY(1px);
+    }
+    .btn-action svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+    .badge-count {
+      background: var(--primary);
+      color: #070a12;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 999px;
+      transition: background 0.3s ease;
+    }
+
+    /* Navigation Tabs */
+    .nav-tabs {
+      display: flex;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 4px;
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      gap: 4px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 10px 14px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.25s ease;
+    }
+    .tab-btn:hover {
+      color: var(--text-main);
+    }
+    .tab-btn.active {
+      background: var(--surface-2);
+      color: var(--text-main);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+    }
+    .tab-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* Display Area */
+    .screen-container {
+      background: var(--screen-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4) inset;
+      position: relative;
+      transition: background 0.3s ease;
+    }
+    .screen-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-subtle);
+      font-size: 0.8rem;
+    }
+    .mode-indicators {
+      display: flex;
+      gap: 8px;
+    }
+    .mode-chip {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .mode-chip.active {
+      background: var(--primary-glow);
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+    .btn-copy {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.78rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.2s;
+    }
+    .btn-copy:hover {
+      color: var(--primary);
+    }
+    .expression-box {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      min-height: 26px;
+      text-align: left;
+      direction: ltr;
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none;
+    }
+    .expression-box::-webkit-scrollbar {
+      display: none;
+    }
+    .result-box {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #fff;
+      text-align: left;
+      direction: ltr;
+      overflow-x: auto;
+      white-space: nowrap;
+      line-height: 1.2;
+      scrollbar-width: none;
+    }
+    .result-box::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Keypads */
+    .keypad-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+    }
+
+    button.key {
+      background: var(--btn-num);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      color: var(--text-main);
+      font-family: 'JetBrains Mono', 'Cairo', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      padding: 15px 4px;
+      cursor: pointer;
+      transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    }
+    button.key:hover {
+      background: var(--surface-hover);
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+    }
+    button.key:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Key Types */
+    button.key.key-fn {
+      background: var(--btn-fn);
+      color: var(--primary);
+      font-size: 0.95rem;
+    }
+    button.key.key-op {
+      background: var(--btn-op);
+      color: var(--accent);
+      font-size: 1.2rem;
+    }
+    button.key.key-danger {
+      background: var(--btn-danger);
+      color: #fda4af;
+      font-size: 1rem;
+    }
+    button.key.key-equals {
+      background: var(--btn-equals-grad);
+      color: #fff;
+      font-weight: 800;
+      grid-column: span 1;
+      border: none;
+      box-shadow: 0 6px 20px var(--primary-glow);
+    }
+    button.key.key-equals:hover {
+      background: var(--btn-equals-hover);
+      box-shadow: 0 8px 25px var(--primary-glow);
+    }
+    button.key.key-mem {
+      background: var(--surface-2);
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+
+    /* Graph Section */
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .graph-controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .input-group {
+      flex: 1;
+      min-width: 280px;
+      display: flex;
+      background: var(--screen-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .input-prefix {
+      background: var(--surface-2);
+      padding: 10px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      color: var(--primary);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      border-left: 1px solid var(--card-border);
+    }
+    .input-field {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      padding: 10px 14px;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.05rem;
+      direction: ltr;
+    }
+    .graph-canvas-container {
+      position: relative;
+      background: var(--screen-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      min-height: 380px;
+    }
+    canvas#graphCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: crosshair;
+    }
+    .graph-floating-controls {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 10;
+    }
+    .zoom-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--card-bg);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--card-border);
+      color: #fff;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .zoom-btn:hover {
+      background: var(--surface-hover);
+      color: var(--primary);
+    }
+    .graph-coords-indicator {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: var(--screen-bg);
+      border: 1px solid var(--card-border);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--primary);
+      backdrop-filter: blur(8px);
+    }
+
+    /* Unit Converter */
+    .converter-card {
+      background: var(--screen-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .category-pills {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scrollbar-width: thin;
+    }
+    .pill {
+      background: var(--surface-1);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 7px 16px;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .pill:hover {
+      color: #fff;
+      background: var(--surface-2);
+    }
+    .pill.active {
+      background: var(--btn-equals-grad);
+      color: #fff;
+      border-color: transparent;
+    }
+    .converter-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 16px;
+    }
+    .unit-box {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .unit-box label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+    .unit-input-wrap {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .unit-input-wrap input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.4rem;
+      padding: 12px 14px;
+      direction: ltr;
+    }
+    .unit-input-wrap select {
+      background: var(--surface-2);
+      border: none;
+      border-top: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 10px 14px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+      cursor: pointer;
+    }
+    .unit-input-wrap select option {
+      background: #0f172a;
+      color: #fff;
+    }
+    .btn-swap {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--surface-2);
+      border: 1px solid var(--card-border);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-swap:hover {
+      background: var(--surface-hover);
+      transform: rotate(180deg);
+    }
+
+    /* Modals (History & Themes) */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .modal-dialog {
+      background: var(--modal-bg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      width: 100%;
+      max-width: 520px;
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
+      overflow: hidden;
+    }
+    .modal-backdrop.open .modal-dialog {
+      transform: translateY(0) scale(1);
+    }
+    .modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .modal-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-clear-hist {
+      background: var(--btn-danger);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      color: #fda4af;
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-clear-hist:hover {
+      background: rgba(244, 63, 94, 0.25);
+    }
+    .btn-close-modal {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--surface-1);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      transition: all 0.2s;
+    }
+    .btn-close-modal:hover {
+      color: #fff;
+      background: var(--surface-2);
+    }
+    .modal-body {
+      padding: 16px 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+    .history-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      text-align: left;
+      direction: ltr;
+    }
+    .history-item:hover {
+      background: var(--primary-glow);
+      border-color: var(--primary);
+      transform: translateX(-4px);
+    }
+    .hist-expr {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+    .hist-res {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .empty-state {
+      text-align: center;
+      color: var(--text-subtle);
+      padding: 40px 10px;
+      font-size: 0.95rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .empty-state svg {
+      width: 48px;
+      height: 48px;
+      opacity: 0.35;
+      stroke: currentColor;
+    }
+
+    /* Theme Cards in Modal */
+    .themes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      padding: 6px 0;
+    }
+    .theme-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 2px solid var(--card-border);
+      border-radius: 14px;
+      padding: 14px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .theme-card:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+    .theme-card.active {
+      border-color: var(--primary);
+      background: var(--primary-glow);
+      box-shadow: 0 0 20px var(--primary-glow);
+    }
+    .theme-preview-palette {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .color-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+    .theme-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .theme-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .theme-badge {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    /* Notification Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--primary);
+      color: #070a12;
+      padding: 10px 22px;
+      border-radius: 9999px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      box-shadow: 0 10px 25px var(--primary-glow);
+      z-index: 2000;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      .app-wrapper {
+        padding: 16px;
+      }
+      .keypad-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 6px;
+      }
+      button.key {
+        padding: 12px 2px;
+        font-size: 1rem;
+      }
+      .result-box {
+        font-size: 2.2rem;
+      }
+      .converter-grid {
+        grid-template-columns: 1fr;
+      }
+      .btn-swap {
+        margin: 0 auto;
+        transform: rotate(90deg);
+      }
+      .btn-swap:hover {
+        transform: rotate(270deg);
+      }
+      .themes-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 480px) {
+      .keypad-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="calculator">
-  <div id="display" class="display">0</div>
-  <div class="buttons">
-    <button class="clear">C</button>
-    <button class="operator">/</button>
-    <button class="operator">*</button>
-    <button class="operator">-</button>
-    <button>7</button>
-    <button>8</button>
-    <button>9</button>
-    <button class="operator">+</button>
-    <button>4</button>
-    <button>5</button>
-    <button>6</button>
-    <button class="equal">=</button>
-    <button>1</button>
-    <button>2</button>
-    <button>3</button>
-    <button>0</button>
-    <button>.</button>
+
+  <div class="glow-sphere glow-1"></div>
+  <div class="glow-sphere glow-2"></div>
+
+  <div class="app-wrapper">
+    <!-- Top Bar -->
+    <header>
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+        </div>
+        <div class="brand-title">
+          <h1>OmniCalc <span class="pro-badge">PRO</span></h1>
+          <p>الحاسبة العلمية الحديثة ونظام الحسابات الفائقة</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Theme Settings Button -->
+        <button class="btn-action" id="themeBtn" title="تغيير المظهر والثيمات">
+          <svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+          <span>المظهر</span>
+        </button>
+
+        <!-- History Button -->
+        <button class="btn-action" id="historyBtn" title="سجل العمليات">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>السجل</span>
+          <span class="badge-count" id="histCount">0</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-tab="calc-tab">
+        <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><path d="M16 14v4"/><path d="M8 10h.01"/><path d="M12 10h.01"/><path d="M16 10h.01"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></svg>
+        <span>الحاسبة العلمية</span>
+      </button>
+      <button class="tab-btn" data-tab="graph-tab">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><path d="M3 20h18"/></svg>
+        <span>رسم الدوال البيانية</span>
+      </button>
+      <button class="tab-btn" data-tab="converter-tab">
+        <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        <span>محول الوحدات</span>
+      </button>
+    </nav>
+
+    <!-- TAB 1: Scientific Calculator -->
+    <main class="tab-content active" id="calc-tab">
+      <div class="screen-container">
+        <div class="screen-header">
+          <div class="mode-indicators">
+            <span class="mode-chip active" id="angleDeg">DEG</span>
+            <span class="mode-chip" id="angleRad">RAD</span>
+          </div>
+          <button class="btn-copy" id="copyResultBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span>نسخ النتيجة</span>
+          </button>
+        </div>
+        <div class="expression-box" id="calcExpr"></div>
+        <div class="result-box" id="calcResult">0</div>
+      </div>
+
+      <!-- Keypad -->
+      <div class="keypad-grid">
+        <!-- Row 1: Memory & Modes -->
+        <button class="key key-mem" data-action="mc">MC</button>
+        <button class="key key-mem" data-action="mr">MR</button>
+        <button class="key key-mem" data-action="m-plus">M+</button>
+        <button class="key key-mem" data-action="m-minus">M-</button>
+        <button class="key key-mem" data-action="ms">MS</button>
+        <button class="key key-danger" data-action="clear-all">AC</button>
+        <button class="key key-danger" data-action="backspace">⌫</button>
+
+        <!-- Row 2: Advanced Functions -->
+        <button class="key key-fn" data-insert="sin(">sin</button>
+        <button class="key key-fn" data-insert="cos(">cos</button>
+        <button class="key key-fn" data-insert="tan(">tan</button>
+        <button class="key key-fn" data-insert="asin(">sin⁻¹</button>
+        <button class="key key-fn" data-insert="acos(">cos⁻¹</button>
+        <button class="key key-fn" data-insert="atan(">tan⁻¹</button>
+        <button class="key key-op" data-insert="/">÷</button>
+
+        <!-- Row 3: Log, Exp, Constants -->
+        <button class="key key-fn" data-insert="ln(">ln</button>
+        <button class="key key-fn" data-insert="log10(">log</button>
+        <button class="key key-fn" data-insert="^">xʸ</button>
+        <button class="key key-fn" data-insert="^2">x²</button>
+        <button class="key key-fn" data-insert="sqrt(">√</button>
+        <button class="key key-fn" data-insert="cbrt(">∛</button>
+        <button class="key key-op" data-insert="*">×</button>
+
+        <!-- Row 4: Numbers 7, 8, 9 & Ops -->
+        <button class="key key-fn" data-insert="pi">π</button>
+        <button class="key key-fn" data-insert="e">e</button>
+        <button class="key" data-insert="7">7</button>
+        <button class="key" data-insert="8">8</button>
+        <button class="key" data-insert="9">9</button>
+        <button class="key key-fn" data-insert="(">(</button>
+        <button class="key key-op" data-insert="-">-</button>
+
+        <!-- Row 5: Numbers 4, 5, 6 & Ops -->
+        <button class="key key-fn" data-insert="!">n!</button>
+        <button class="key key-fn" data-insert="%">%</button>
+        <button class="key" data-insert="4">4</button>
+        <button class="key" data-insert="5">5</button>
+        <button class="key" data-insert="6">6</button>
+        <button class="key key-fn" data-insert=")">)</button>
+        <button class="key key-op" data-insert="+">+</button>
+
+        <!-- Row 6: Numbers 1, 2, 3 & Equals -->
+        <button class="key key-fn" data-insert="abs(">|x|</button>
+        <button class="key key-fn" data-action="negate">±</button>
+        <button class="key" data-insert="1">1</button>
+        <button class="key" data-insert="2">2</button>
+        <button class="key" data-insert="3">3</button>
+        <button class="key" data-insert="0">0</button>
+        <button class="key key-fn" data-insert=".">.</button>
+
+        <!-- Row 7: Extended Tools & Solve -->
+        <button class="key key-fn" data-insert="10^">10ˣ</button>
+        <button class="key key-fn" data-insert="exp(">eˣ</button>
+        <button class="key key-fn" data-insert="sinh(">sinh</button>
+        <button class="key key-fn" data-insert="cosh(">cosh</button>
+        <button class="key key-fn" data-insert="tanh(">tanh</button>
+        <button class="key key-equals" style="grid-column: span 2;" data-action="evaluate">=</button>
+      </div>
+    </main>
+
+    <!-- TAB 2: Graphing Tool -->
+    <section class="tab-content" id="graph-tab">
+      <div class="graph-controls">
+        <div class="input-group">
+          <span class="input-prefix">f(x) =</span>
+          <input type="text" id="funcInput" class="input-field" value="sin(x) * cos(x / 2)" placeholder="اكتب الدالة مثلاً: sin(x), x^2 - 4">
+        </div>
+        <button class="btn-action" id="plotBtn" style="background: var(--btn-equals-grad); color: #fff;">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>رسم المنحنى</span>
+        </button>
+      </div>
+
+      <div class="quick-funcs" style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <span style="font-size: 0.8rem; color: var(--text-muted); align-self: center;">نماذج سريعة:</span>
+        <button class="pill" onclick="setPlotFunction('sin(x)')">sin(x)</button>
+        <button class="pill" onclick="setPlotFunction('x^2 - 4')">x² - 4</button>
+        <button class="pill" onclick="setPlotFunction('sin(x)/x')">sinc(x)</button>
+        <button class="pill" onclick="setPlotFunction('tan(x)')">tan(x)</button>
+        <button class="pill" onclick="setPlotFunction('sqrt(16 - x^2)')">√(16 - x²)</button>
+      </div>
+
+      <div class="graph-canvas-container">
+        <div class="graph-coords-indicator" id="coordsIndicator">X: 0.00 | Y: 0.00</div>
+        <canvas id="graphCanvas"></canvas>
+        <div class="graph-floating-controls">
+          <button class="zoom-btn" id="zoomIn" title="تكبير">+</button>
+          <button class="zoom-btn" id="zoomOut" title="تصغير">−</button>
+          <button class="zoom-btn" id="resetGraph" title="إعادة ضبط">⟲</button>
+        </div>
+      </div>
+      <p style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">
+        💡 يمكنك تحريك المنحنى بالسحب، واستخدام عجلة الفأرة أو الأزرار للتكبير والتصغير.
+      </p>
+    </section>
+
+    <!-- TAB 3: Unit Converter -->
+    <section class="tab-content" id="converter-tab">
+      <div class="converter-card">
+        <div class="category-pills">
+          <button class="pill active" data-cat="length">الطول والمسافة</button>
+          <button class="pill" data-cat="weight">الكتلة والوزن</button>
+          <button class="pill" data-cat="temp">درجة الحرارة</button>
+          <button class="pill" data-cat="data">سعة البيانات</button>
+          <button class="pill" data-cat="speed">السرعة</button>
+          <button class="pill" data-cat="time">الوقت</button>
+        </div>
+
+        <div class="converter-grid">
+          <div class="unit-box">
+            <label>من</label>
+            <div class="unit-input-wrap">
+              <input type="number" id="convertFromVal" value="1" step="any">
+              <select id="convertFromUnit"></select>
+            </div>
+          </div>
+
+          <button class="btn-swap" id="swapUnitsBtn" title="تبديل">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+          </button>
+
+          <div class="unit-box">
+            <label>إلى</label>
+            <div class="unit-input-wrap">
+              <input type="number" id="convertToVal" readonly>
+              <select id="convertToUnit"></select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
-</div>
 
-<script>
-const display = document.getElementById('display');
-const buttons = document.querySelectorAll('button');
-let currentValue = '';
-let lastInput = '';
+  <!-- THEMES MODAL -->
+  <div class="modal-backdrop" id="themeModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+          <span>تخصيص المظهر والثيمات</span>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-close-modal" id="closeThemeBtn" title="إغلاق (Esc)">✕</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px;">اختر النمط البصري المفضل لديك:</p>
+        <div class="themes-grid">
+          <!-- Theme 1 -->
+          <div class="theme-card active" data-theme-val="midnight">
+            <div class="theme-preview-palette">
+              <div class="color-dot" style="background: #080c16;"></div>
+              <div class="color-dot" style="background: #0284c7;"></div>
+              <div class="color-dot" style="background: #38bdf8;"></div>
+            </div>
+            <div class="theme-info">
+              <span class="theme-name">Midnight Cyber</span>
+              <span class="theme-badge">أزرق سيبراني</span>
+            </div>
+          </div>
 
-buttons.forEach(button => {
-  button.addEventListener('click', () => {
-    const value = button.textContent;
+          <!-- Theme 2 -->
+          <div class="theme-card" data-theme-val="emerald">
+            <div class="theme-preview-palette">
+              <div class="color-dot" style="background: #03140e;"></div>
+              <div class="color-dot" style="background: #059669;"></div>
+              <div class="color-dot" style="background: #34d399;"></div>
+            </div>
+            <div class="theme-info">
+              <span class="theme-name">Emerald Matrix</span>
+              <span class="theme-badge">زمردي ملكي</span>
+            </div>
+          </div>
 
-    if (button.classList.contains('clear')) {
-      currentValue = '';
-      lastInput = '';
-      display.textContent = '0';
-      return;
+          <!-- Theme 3 -->
+          <div class="theme-card" data-theme-val="violet">
+            <div class="theme-preview-palette">
+              <div class="color-dot" style="background: #11081e;"></div>
+              <div class="color-dot" style="background: #9333ea;"></div>
+              <div class="color-dot" style="background: #c084fc;"></div>
+            </div>
+            <div class="theme-info">
+              <span class="theme-name">Royal Violet</span>
+              <span class="theme-badge">بنفسجي نيون</span>
+            </div>
+          </div>
+
+          <!-- Theme 4 -->
+          <div class="theme-card" data-theme-val="crimson">
+            <div class="theme-preview-palette">
+              <div class="color-dot" style="background: #16060b;"></div>
+              <div class="color-dot" style="background: #e11d48;"></div>
+              <div class="color-dot" style="background: #fb7185;"></div>
+            </div>
+            <div class="theme-info">
+              <span class="theme-name">Crimson Ruby</span>
+              <span class="theme-badge">ياقوت قرمزي</span>
+            </div>
+          </div>
+
+          <!-- Theme 5 -->
+          <div class="theme-card" data-theme-val="gold">
+            <div class="theme-preview-palette">
+              <div class="color-dot" style="background: #171104;"></div>
+              <div class="color-dot" style="background: #d97706;"></div>
+              <div class="color-dot" style="background: #fbbf24;"></div>
+            </div>
+            <div class="theme-info">
+              <span class="theme-name">Luxury Gold</span>
+              <span class="theme-badge">ذهبي فاخر</span>
+            </div>
+          </div>
+
+          <!-- Theme 6 -->
+          <div class="theme-card" data-theme-val="titanium">
+            <div class="theme-preview-palette">
+              <div class="color-dot" style="background: #0f1318;"></div>
+              <div class="color-dot" style="background: #475569;"></div>
+              <div class="color-dot" style="background: #cbd5e1;"></div>
+            </div>
+            <div class="theme-info">
+              <span class="theme-name">Titanium Frost</span>
+              <span class="theme-badge">تيتانيوم حديث</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- History Modal (Fixed Backdrop, RTL friendly) -->
+  <div class="modal-backdrop" id="historyModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>سجل الحسابات</span>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-clear-hist" id="clearHistoryBtn">مسح السجل</button>
+          <button class="btn-close-modal" id="closeHistoryBtn" title="إغلاق (Esc)">✕</button>
+        </div>
+      </div>
+      <div class="modal-body" id="historyList">
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/></svg>
+          <span>لا توجد عمليات سابقة بعد.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">تم النسخ إلى الحافظة</div>
+
+  <!-- Scripts -->
+  <script>
+    /* State */
+    let currentExpr = '';
+    let memoryVal = 0;
+    let angleMode = 'DEG'; // 'DEG' or 'RAD'
+    let historyData = [];
+
+    const exprEl = document.getElementById('calcExpr');
+    const resultEl = document.getElementById('calcResult');
+    const toast = document.getElementById('toast');
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
     }
 
-    if (button.classList.contains('equal')) {
-      if (!currentValue) return;
+    /* =========================================
+       Theme Engine & LocalStorage
+       ========================================= */
+    const themeModal = document.getElementById('themeModal');
+    const themeBtn = document.getElementById('themeBtn');
+    const closeThemeBtn = document.getElementById('closeThemeBtn');
+    const themeCards = document.querySelectorAll('.theme-card');
+
+    function setTheme(themeName) {
+      document.documentElement.setAttribute('data-theme', themeName);
+      localStorage.setItem('omnicalc_theme', themeName);
+      themeCards.forEach(card => {
+        if (card.getAttribute('data-theme-val') === themeName) {
+          card.classList.add('active');
+        } else {
+          card.classList.remove('active');
+        }
+      });
+      // redraw graph with new curve colors
+      if (document.getElementById('graph-tab').classList.contains('active')) {
+        drawGraph();
+      }
+    }
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('omnicalc_theme') || 'midnight';
+    setTheme(savedTheme);
+
+    themeBtn.addEventListener('click', () => {
+      themeModal.classList.add('open');
+    });
+    closeThemeBtn.addEventListener('click', () => {
+      themeModal.classList.remove('open');
+    });
+    themeModal.addEventListener('click', (e) => {
+      if (e.target === themeModal) themeModal.classList.remove('open');
+    });
+
+    themeCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const themeVal = card.getAttribute('data-theme-val');
+        setTheme(themeVal);
+        showToast('تم تغيير المظهر بنجاح');
+        setTimeout(() => themeModal.classList.remove('open'), 300);
+      });
+    });
+
+    /* Tabs Switcher */
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        const targetId = btn.getAttribute('data-tab');
+        document.getElementById(targetId).classList.add('active');
+        if (targetId === 'graph-tab') {
+          initGraph();
+        }
+      });
+    });
+
+    /* Angle Mode */
+    const degBtn = document.getElementById('angleDeg');
+    const radBtn = document.getElementById('angleRad');
+    degBtn.addEventListener('click', () => {
+      angleMode = 'DEG';
+      degBtn.classList.add('active');
+      radBtn.classList.remove('active');
+    });
+    radBtn.addEventListener('click', () => {
+      angleMode = 'RAD';
+      radBtn.classList.add('active');
+      degBtn.classList.remove('active');
+    });
+
+    /* Input Handling */
+    document.querySelectorAll('button.key').forEach(button => {
+      button.addEventListener('click', () => {
+        const insert = button.getAttribute('data-insert');
+        const action = button.getAttribute('data-action');
+
+        if (insert) {
+          currentExpr += insert;
+          updateDisplay();
+        } else if (action) {
+          handleAction(action);
+        }
+      });
+    });
+
+    function updateDisplay() {
+      exprEl.textContent = currentExpr;
+    }
+
+    function handleAction(act) {
+      switch (act) {
+        case 'clear-all':
+          currentExpr = '';
+          resultEl.textContent = '0';
+          updateDisplay();
+          break;
+        case 'backspace':
+          currentExpr = currentExpr.slice(0, -1);
+          updateDisplay();
+          break;
+        case 'evaluate':
+          computeResult();
+          break;
+        case 'negate':
+          if (currentExpr.startsWith('-(') && currentExpr.endsWith(')')) {
+            currentExpr = currentExpr.slice(2, -1);
+          } else {
+            currentExpr = `-(${currentExpr})`;
+          }
+          updateDisplay();
+          break;
+        case 'mc':
+          memoryVal = 0;
+          showToast('تم مسح الذاكرة (MC)');
+          break;
+        case 'mr':
+          currentExpr += memoryVal.toString();
+          updateDisplay();
+          break;
+        case 'm-plus':
+          try {
+            const val = parseFloat(resultEl.textContent) || 0;
+            memoryVal += val;
+            showToast(`M+: ${memoryVal}`);
+          } catch(e) {}
+          break;
+        case 'm-minus':
+          try {
+            const val = parseFloat(resultEl.textContent) || 0;
+            memoryVal -= val;
+            showToast(`M-: ${memoryVal}`);
+          } catch(e) {}
+          break;
+        case 'ms':
+          try {
+            memoryVal = parseFloat(resultEl.textContent) || 0;
+            showToast(`تم تخزين الذاكرة (MS): ${memoryVal}`);
+          } catch(e) {}
+          break;
+      }
+    }
+
+    /* Math Evaluator */
+    function sanitizeExpression(expr) {
+      let s = expr;
+      s = s.replace(/\bpi\b/g, 'Math.PI');
+      s = s.replace(/\be\b/g, 'Math.E');
+      s = s.replace(/\^/g, '**');
+      s = s.replace(/sqrt\(/g, 'Math.sqrt(');
+      s = s.replace(/cbrt\(/g, 'Math.cbrt(');
+      s = s.replace(/abs\(/g, 'Math.abs(');
+      s = s.replace(/exp\(/g, 'Math.exp(');
+      s = s.replace(/log10\(/g, 'Math.log10(');
+      s = s.replace(/ln\(/g, 'Math.log(');
+
+      // Factorial: e.g. 5!
+      s = s.replace(/(\d+)!/g, (match, n) => `factorial(${n})`);
+
+      // Trig functions with degree conversion if angleMode == DEG
+      const trigFns = ['asin', 'acos', 'atan', 'sinh', 'cosh', 'tanh', 'sin', 'cos', 'tan'];
+      for (let fn of trigFns) {
+        const regex = new RegExp(`\\b${fn}\\(([^)]+)\\)`, 'g');
+        if (fn.startsWith('a')) {
+          if (angleMode === 'DEG') {
+            s = s.replace(regex, `(Math.${fn}($1) * (180 / Math.PI))`);
+          } else {
+            s = s.replace(regex, `Math.${fn}($1)`);
+          }
+        } else if (fn.endsWith('h')) {
+          s = s.replace(regex, `Math.${fn}($1)`);
+        } else {
+          if (angleMode === 'DEG') {
+            s = s.replace(regex, `Math.${fn}(($1) * (Math.PI / 180))`);
+          } else {
+            s = s.replace(regex, `Math.${fn}($1)`);
+          }
+        }
+      }
+
+      return s;
+    }
+
+    function factorial(n) {
+      if (n < 0) return NaN;
+      if (n === 0 || n === 1) return 1;
+      let res = 1;
+      for (let i = 2; i <= n; i++) res *= i;
+      return res;
+    }
+
+    function computeResult() {
+      if (!currentExpr.trim()) return;
       try {
-        const result = eval(currentValue);
-        display.textContent = String(result);
-        currentValue = String(result);
-        lastInput = '';
-      } catch {
-        display.textContent = 'خطأ';
-        currentValue = '';
+        const parsed = sanitizeExpression(currentExpr);
+        const evalFn = new Function('factorial', `return (${parsed});`);
+        const res = evalFn(factorial);
+
+        let formatted = Number.isInteger(res) ? res.toString() : parseFloat(res.toFixed(10)).toString();
+        if (isNaN(res) || !isFinite(res)) formatted = 'خطأ رياضي';
+
+        resultEl.textContent = formatted;
+        addHistory(currentExpr, formatted);
+      } catch (err) {
+        resultEl.textContent = 'خطأ في الصيغة';
       }
-      return;
     }
 
-    if (button.classList.contains('operator')) {
-      if (!currentValue) return;
-      if (/[+\-*/]$/.test(currentValue)) {
-        currentValue = currentValue.slice(0, -1) + value;
-      } else {
-        currentValue += value;
-      }
-      lastInput = value;
-    } else if (value === '.') {
-      if (lastInput === '.' || /\.\d*$/.test(currentValue)) return;
-      if (!currentValue || /[+\-*/]$/.test(currentValue)) {
-        currentValue += '0.';
-      } else {
-        currentValue += '.';
-      }
-      lastInput = '.';
-    } else {
-      currentValue += value;
-      lastInput = value;
+    /* History Management */
+    const historyModal = document.getElementById('historyModal');
+    const historyList = document.getElementById('historyList');
+    const histCount = document.getElementById('histCount');
+
+    function addHistory(expr, res) {
+      if (res === 'خطأ رياضي' || res === 'خطأ في الصيغة') return;
+      historyData.unshift({ expr, res, date: new Date().toLocaleTimeString('ar-SA') });
+      if (historyData.length > 50) historyData.pop();
+      histCount.textContent = historyData.length;
+      renderHistory();
     }
 
-    display.textContent = currentValue || '0';
-  });
-});
-</script>
+    function renderHistory() {
+      if (historyData.length === 0) {
+        historyList.innerHTML = `
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/></svg>
+            <span>لا توجد عمليات سابقة بعد.</span>
+          </div>`;
+        return;
+      }
+      historyList.innerHTML = historyData.map((item, index) => `
+        <div class="history-item" onclick="useHistoryItem(${index})">
+          <div class="hist-expr">${item.expr} =</div>
+          <div class="hist-res">${item.res}</div>
+        </div>
+      `).join('');
+    }
+
+    window.useHistoryItem = function(index) {
+      const item = historyData[index];
+      currentExpr = item.res;
+      resultEl.textContent = item.res;
+      updateDisplay();
+      closeModals();
+      showToast('تم استعادة الناتج');
+    };
+
+    function closeModals() {
+      historyModal.classList.remove('open');
+      themeModal.classList.remove('open');
+    }
+
+    document.getElementById('historyBtn').addEventListener('click', () => historyModal.classList.add('open'));
+    document.getElementById('closeHistoryBtn').addEventListener('click', () => historyModal.classList.remove('open'));
+    document.getElementById('clearHistoryBtn').addEventListener('click', () => {
+      historyData = [];
+      histCount.textContent = '0';
+      renderHistory();
+      showToast('تم مسح السجل');
+    });
+
+    historyModal.addEventListener('click', (e) => {
+      if (e.target === historyModal) closeModals();
+    });
+
+    // Keyboard support
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModals();
+      } else if (document.activeElement.tagName !== 'INPUT') {
+        if ((e.key >= '0' && e.key <= '9') || ['+', '-', '*', '/', '.', '(', ')'].includes(e.key)) {
+          currentExpr += e.key;
+          updateDisplay();
+        } else if (e.key === 'Enter') {
+          computeResult();
+        } else if (e.key === 'Backspace') {
+          currentExpr = currentExpr.slice(0, -1);
+          updateDisplay();
+        }
+      }
+    });
+
+    // Copy Result
+    document.getElementById('copyResultBtn').addEventListener('click', () => {
+      navigator.clipboard.writeText(resultEl.textContent).then(() => {
+        showToast('تم نسخ النتيجة إلى الحافظة');
+      });
+    });
+
+    /* =========================================
+       Graphing Engine (Interactive Canvas)
+       ========================================= */
+    const canvas = document.getElementById('graphCanvas');
+    const ctx = canvas.getContext('2d');
+    const funcInput = document.getElementById('funcInput');
+    const coordsIndicator = document.getElementById('coordsIndicator');
+
+    let graphScale = 40;
+    let originX = 0;
+    let originY = 0;
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * window.devicePixelRatio;
+      canvas.height = rect.height * window.devicePixelRatio;
+      if (originX === 0 && originY === 0) {
+        originX = canvas.width / 2;
+        originY = canvas.height / 2;
+      }
+      drawGraph();
+    }
+
+    function initGraph() {
+      setTimeout(resizeCanvas, 50);
+    }
+
+    function evaluateFunc(fnStr, x) {
+      try {
+        let parsed = fnStr.replace(/\^/g, '**')
+                          .replace(/\bpi\b/g, 'Math.PI')
+                          .replace(/\be\b/g, 'Math.E')
+                          .replace(/sin\(/g, 'Math.sin(')
+                          .replace(/cos\(/g, 'Math.cos(')
+                          .replace(/tan\(/g, 'Math.tan(')
+                          .replace(/sqrt\(/g, 'Math.sqrt(')
+                          .replace(/abs\(/g, 'Math.abs(')
+                          .replace(/ln\(/g, 'Math.log(')
+                          .replace(/log10\(/g, 'Math.log10(');
+        const f = new Function('x', `return (${parsed});`);
+        return f(x);
+      } catch (err) {
+        return NaN;
+      }
+    }
+
+    function drawGraph() {
+      const w = canvas.width;
+      const h = canvas.height;
+      const dpr = window.devicePixelRatio;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Grid Lines
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+
+      const step = graphScale * dpr;
+
+      for (let x = originX % step; x < w; x += step) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, h);
+        ctx.stroke();
+      }
+
+      for (let y = originY % step; y < h; y += step) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
+
+      // Axes
+      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+
+      ctx.beginPath();
+      ctx.moveTo(0, originY);
+      ctx.lineTo(w, originY);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(originX, 0);
+      ctx.lineTo(originX, h);
+      ctx.stroke();
+
+      // Numbers on axes
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+      ctx.font = `${10 * dpr}px JetBrains Mono`;
+
+      for (let x = originX + step, val = 1; x < w; x += step, val++) {
+        ctx.fillText(val, x - 4 * dpr, originY + 14 * dpr);
+      }
+      for (let x = originX - step, val = -1; x > 0; x -= step, val--) {
+        ctx.fillText(val, x - 8 * dpr, originY + 14 * dpr);
+      }
+      for (let y = originY + step, val = -1; y < h; y += step, val--) {
+        ctx.fillText(val, originX + 6 * dpr, y + 4 * dpr);
+      }
+      for (let y = originY - step, val = 1; y > 0; y -= step, val++) {
+        ctx.fillText(val, originX + 6 * dpr, y + 4 * dpr);
+      }
+
+      // Plot Function using computed CSS variable colors
+      const computedStyles = getComputedStyle(document.documentElement);
+      const curveColor = computedStyles.getPropertyValue('--graph-curve').trim() || '#38bdf8';
+      const glowColor = computedStyles.getPropertyValue('--graph-glow').trim() || '#0284c7';
+
+      const fnStr = funcInput.value.trim();
+      if (!fnStr) return;
+
+      ctx.beginPath();
+      ctx.lineWidth = 2.5 * dpr;
+      ctx.strokeStyle = curveColor;
+      ctx.shadowColor = glowColor;
+      ctx.shadowBlur = 12 * dpr;
+
+      let started = false;
+      const pixelStep = 2;
+
+      for (let px = 0; px <= w; px += pixelStep) {
+        const mathX = (px - originX) / (graphScale * dpr);
+        const mathY = evaluateFunc(fnStr, mathX);
+
+        if (!isNaN(mathY) && isFinite(mathY)) {
+          const py = originY - (mathY * graphScale * dpr);
+          if (py >= -100 && py <= h + 100) {
+            if (!started) {
+              ctx.moveTo(px, py);
+              started = true;
+            } else {
+              ctx.lineTo(px, py);
+            }
+          } else {
+            started = false;
+          }
+        } else {
+          started = false;
+        }
+      }
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    }
+
+    document.getElementById('plotBtn').addEventListener('click', drawGraph);
+    funcInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') drawGraph();
+    });
+
+    window.setPlotFunction = function(expr) {
+      funcInput.value = expr;
+      drawGraph();
+    };
+
+    canvas.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        const dx = (e.clientX - dragStartX) * window.devicePixelRatio;
+        const dy = (e.clientY - dragStartY) * window.devicePixelRatio;
+        originX += dx;
+        originY += dy;
+        dragStartX = e.clientX;
+        dragStartY = e.clientY;
+        drawGraph();
+      }
+
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+      if (mouseX >= 0 && mouseX <= rect.width && mouseY >= 0 && mouseY <= rect.height) {
+        const mathX = ((mouseX * window.devicePixelRatio) - originX) / (graphScale * window.devicePixelRatio);
+        const mathY = (originY - (mouseY * window.devicePixelRatio)) / (graphScale * window.devicePixelRatio);
+        coordsIndicator.textContent = `X: ${mathX.toFixed(2)} | Y: ${mathY.toFixed(2)}`;
+      }
+    });
+
+    window.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+
+    canvas.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const zoomFactor = e.deltaY < 0 ? 1.15 : 0.85;
+      graphScale = Math.max(10, Math.min(300, graphScale * zoomFactor));
+      drawGraph();
+    });
+
+    document.getElementById('zoomIn').addEventListener('click', () => {
+      graphScale = Math.min(300, graphScale * 1.25);
+      drawGraph();
+    });
+    document.getElementById('zoomOut').addEventListener('click', () => {
+      graphScale = Math.max(10, graphScale * 0.8);
+      drawGraph();
+    });
+    document.getElementById('resetGraph').addEventListener('click', () => {
+      originX = canvas.width / 2;
+      originY = canvas.height / 2;
+      graphScale = 40;
+      drawGraph();
+    });
+
+    window.addEventListener('resize', resizeCanvas);
+
+    /* =========================================
+       Unit Converter Logic
+       ========================================= */
+    const unitDatabase = {
+      length: {
+        units: {
+          meter: { name: 'متر (m)', factor: 1 },
+          kilometer: { name: 'كيلومتر (km)', factor: 1000 },
+          centimeter: { name: 'سنتيمتر (cm)', factor: 0.01 },
+          millimeter: { name: 'ميليمتر (mm)', factor: 0.001 },
+          mile: { name: 'ميل (mi)', factor: 1609.344 },
+          yard: { name: 'ياردة (yd)', factor: 0.9144 },
+          foot: { name: 'قدم (ft)', factor: 0.3048 },
+          inch: { name: 'بوصة (in)', factor: 0.0254 }
+        }
+      },
+      weight: {
+        units: {
+          kilogram: { name: 'كيلوغرام (kg)', factor: 1 },
+          gram: { name: 'غرام (g)', factor: 0.001 },
+          milligram: { name: 'ميليغرام (mg)', factor: 0.000001 },
+          pound: { name: 'باوند (lb)', factor: 0.453592 },
+          ounce: { name: 'أونصة (oz)', factor: 0.0283495 },
+          ton: { name: 'طن متري (t)', factor: 1000 }
+        }
+      },
+      temp: {
+        units: {
+          celsius: { name: 'سلسيوس (°C)' },
+          fahrenheit: { name: 'فهرنهايت (°F)' },
+          kelvin: { name: 'كلفن (K)' }
+        }
+      },
+      data: {
+        units: {
+          byte: { name: 'بايت (B)', factor: 1 },
+          kilobyte: { name: 'كيلوبايت (KB)', factor: 1024 },
+          megabyte: { name: 'ميجابايت (MB)', factor: 1024 * 1024 },
+          gigabyte: { name: 'جيجابايت (GB)', factor: 1024 * 1024 * 1024 },
+          terabyte: { name: 'تيرابايت (TB)', factor: 1024 * 1024 * 1024 * 1024 }
+        }
+      },
+      speed: {
+        units: {
+          mps: { name: 'متر / ثانية (m/s)', factor: 1 },
+          kmh: { name: 'كم / ساعة (km/h)', factor: 0.277778 },
+          mph: { name: 'ميل / ساعة (mph)', factor: 0.44704 },
+          knot: { name: 'عقدة (knot)', factor: 0.514444 }
+        }
+      },
+      time: {
+        units: {
+          second: { name: 'ثانية (s)', factor: 1 },
+          minute: { name: 'دقيقة (min)', factor: 60 },
+          hour: { name: 'ساعة (h)', factor: 3600 },
+          day: { name: 'يوم (day)', factor: 86400 },
+          week: { name: 'أسبوع (week)', factor: 604800 }
+        }
+      }
+    };
+
+    let activeCat = 'length';
+    const fromVal = document.getElementById('convertFromVal');
+    const toVal = document.getElementById('convertToVal');
+    const fromUnit = document.getElementById('convertFromUnit');
+    const toUnit = document.getElementById('convertToUnit');
+
+    function populateUnits() {
+      const units = unitDatabase[activeCat].units;
+      const keys = Object.keys(units);
+      fromUnit.innerHTML = keys.map(k => `<option value="${k}">${units[k].name}</option>`).join('');
+      toUnit.innerHTML = keys.map(k => `<option value="${k}">${units[k].name}</option>`).join('');
+      if (keys.length > 1) toUnit.selectedIndex = 1;
+      convertUnits();
+    }
+
+    function convertUnits() {
+      const val = parseFloat(fromVal.value);
+      if (isNaN(val)) {
+        toVal.value = '';
+        return;
+      }
+      const u1 = fromUnit.value;
+      const u2 = toUnit.value;
+
+      if (activeCat === 'temp') {
+        let celsius;
+        if (u1 === 'celsius') celsius = val;
+        else if (u1 === 'fahrenheit') celsius = (val - 32) * (5 / 9);
+        else if (u1 === 'kelvin') celsius = val - 273.15;
+
+        let result;
+        if (u2 === 'celsius') result = celsius;
+        else if (u2 === 'fahrenheit') result = (celsius * (9 / 5)) + 32;
+        else if (u2 === 'kelvin') result = celsius + 273.15;
+
+        toVal.value = parseFloat(result.toFixed(6));
+        return;
+      }
+
+      const f1 = unitDatabase[activeCat].units[u1].factor;
+      const f2 = unitDatabase[activeCat].units[u2].factor;
+      const result = (val * f1) / f2;
+      toVal.value = parseFloat(result.toFixed(8));
+    }
+
+    document.querySelectorAll('.category-pills .pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.category-pills .pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        activeCat = pill.getAttribute('data-cat');
+        populateUnits();
+      });
+    });
+
+    fromVal.addEventListener('input', convertUnits);
+    fromUnit.addEventListener('change', convertUnits);
+    toUnit.addEventListener('change', convertUnits);
+
+    document.getElementById('swapUnitsBtn').addEventListener('click', () => {
+      const temp = fromUnit.value;
+      fromUnit.value = toUnit.value;
+      toUnit.value = temp;
+      convertUnits();
+    });
+
+    populateUnits();
+  </script>
 </body>
 </html>
